@@ -7,15 +7,37 @@ import { Setting } from "../components/pages/Setting";
 import { UserManagement } from "../components/pages/UserManagement";
 import { Layout } from "./Layout";
 import { NotFound } from "./NotFound";
+import { HeaderLayout } from "../components/templete/HeaderLayout";
 
 export const Router: VFC = memo(() => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="home" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="UserManagement" element={<UserManagement />} />
-        <Route path="Setting" element={<Setting />} />
+        <Route
+          index
+          element={
+            <HeaderLayout>
+              <Home />
+            </HeaderLayout>
+          }
+        />
+        <Route
+          path="UserManagement"
+          element={
+            <HeaderLayout>
+              <UserManagement />
+            </HeaderLayout>
+          }
+        />
+        <Route
+          path="Setting"
+          element={
+            <HeaderLayout>
+              <Setting />
+            </HeaderLayout>
+          }
+        />
       </Route>
       <Route path="*" element={<NotFound />} />
       {/* <Route path="/home" render={(match:{url :any}) => (

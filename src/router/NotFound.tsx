@@ -1,9 +1,5 @@
-import { Button } from "@chakra-ui/react";
+import { memo, VFC } from "react";
 
-export const NotFound = () => {
-  return (
-    <div>
-      <Button>NotFound</Button>
-    </div>
-  );
-};
+export const NotFound: VFC = memo(() => {
+  return <p>404ページです...</p>;
+});
