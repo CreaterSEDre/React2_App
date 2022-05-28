@@ -1,11 +1,25 @@
+/*eslint-disable react-hooks/exhaustive-deps */
 import { Box, Flex, Heading, Link, useDisclosure } from "@chakra-ui/react";
-import { memo, VFC } from "react";
+import { memo, useCallback, VFC } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { MenuIconButton } from "../../../components/atoms/button/MenuIconButton";
 import { MenuDrawer } from "../../../components/molecules/MenuDrawer";
 
 export const Header: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
+  /*useCallbackの[]の中には「本来navigate」が入るが、「navigate」は
+    reactのhooksのため中身が変更されることはない。そのため、eslintの設定を
+    無効にして、空にしている。(好み)
+  */
+  const OnclickHome = useCallback(() => navigate("/home"), []);
+  const OnclickUserManagement = useCallback(
+    () => navigate("/home/UserManagement"),
+    []
+  );
+  const OnclickSetting = useCallback(() => navigate("/home/Setting"), []);
 
   return (
     <>
@@ -17,7 +31,13 @@ export const Header: VFC = memo(() => {
         justify="space-between"
         padding={{ base: 3, md: 5 }}
       >
-        <Flex align="center" as="a" mr={8} _hover={{ cursor: "pointer" }}>
+        <Flex
+          align="center"
+          as="a"
+          mr={8}
+          _hover={{ cursor: "pointer" }}
+          onClick={OnclickHome}
+        >
           <Heading as="h1" fontSize={{ base: "md", md: "lg" }}>
             ユーザ管理アプリ
           </Heading>
@@ -29,13 +49,19 @@ export const Header: VFC = memo(() => {
           display={{ base: "none", md: "flex" }}
         >
           <Box pr={4}>
-            <Link>ユーザ一覧</Link>
+            <Link onClick={OnclickUserManagement}>ユーザ一覧</Link>
           </Box>
-          <Link>設定</Link>
+          <Link onClick={OnclickSetting}>設定</Link>
         </Flex>
         <MenuIconButton onOpen={onOpen} />
       </Flex>
-      <MenuDrawer onClose={onClose} isOpen={isOpen} />
+      <MenuDrawer
+        onClose={onClose}
+        isOpen={isOpen}
+        OnclickHome={OnclickHome}
+        OnclickUserManagement={OnclickUserManagement}
+        OnclickSetting={OnclickSetting}
+      />
     </>
   );
 });
