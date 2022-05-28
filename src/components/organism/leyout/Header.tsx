@@ -1,5 +1,12 @@
 /*eslint-disable react-hooks/exhaustive-deps */
-import { Box, Flex, Heading, Link, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Link,
+  useDisclosure,
+  ModalContent
+} from "@chakra-ui/react";
 import { memo, useCallback, VFC } from "react";
 import { useNavigate } from "react-router-dom";
 

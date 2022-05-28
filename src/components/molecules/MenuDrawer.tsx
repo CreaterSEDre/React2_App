@@ -15,6 +15,8 @@ type Props = {
   OnclickSetting: () => void;
 };
 
+//修正・・・ハンバーガーメニューでボダン押下時にモーダルが閉じない
+
 export const MenuDrawer: VFC<Props> = memo((props) => {
   const {
     onClose,
