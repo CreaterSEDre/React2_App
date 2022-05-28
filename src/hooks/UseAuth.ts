@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import { User } from "../types/api/User";
 import { useMassage } from "./UseMassage";
+import { UseLoginUser } from "../hooks/UseLoginUser";
 
 export const useAuth = () => {
   const navigate = useNavigate();
   const { showMassage } = useMassage();
+  const { setLoginUser } = UseLoginUser();
 
   const [loading, setloading] = useState(false);
 
@@ -19,6 +21,9 @@ export const useAuth = () => {
         .get<User>(`https://jsonplaceholder.typicode.com/users/${id}`)
         .then((res) => {
           if (res.data) {
+            const isAdmin = res.data.id === 10 ? true : false;
+            //スプレット構文でオブジェクトの中身を全て並べてisAdminを追加する
+            setLoginUser({ ...res.data, isAdmin });
             showMassage({ title: "ログインしました。", status: "success" });
             navigate("/home");
           } else {
@@ -33,7 +38,7 @@ export const useAuth = () => {
         )
         .finally(() => setloading(false));
     },
-    [navigate, showMassage]
+    [navigate, showMassage, setLoginUser]
   );
   return { login, loading };
 };

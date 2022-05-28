@@ -12,11 +12,13 @@ import { UserCard } from "../organism/user/UserCard";
 import { UseAllUsers } from "../../hooks/UseAllUsers";
 import { UserDetailModal } from "../organism/user/UserDetailModal";
 import { UseSelectUsers } from "../../hooks/UseSelectUsers";
+import { UseLoginUser } from "../../hooks/UseLoginUser";
 
 export const UserManagement: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getUsers, users, loading } = UseAllUsers();
   const { onSelectUser, selectedUser } = UseSelectUsers();
+  const { loginUser } = UseLoginUser();
 
   //初期マウント時に一度のみ実行
   useEffect(() => getUsers(), []);
@@ -38,9 +40,9 @@ export const UserManagement: VFC = memo(() => {
           <Spinner />
         </Center>
       ) : (
-        <Wrap p={{ base: 4, md: 10 }}>
+        <Wrap p={{ base: 4, md: 10 }} justify="center">
           {users.map((user) => (
-            <WrapItem key={user.id} mx="auto">
+            <WrapItem key={user.id}>
               <UserCard
                 id={user.id}
                 imageUrl="https://source.unsplash.com/random"
@@ -52,7 +54,12 @@ export const UserManagement: VFC = memo(() => {
           ))}
         </Wrap>
       )}
-      <UserDetailModal isOpen={isOpen} onClose={onClose} user={selectedUser} />
+      <UserDetailModal
+        isOpen={isOpen}
+        onClose={onClose}
+        user={selectedUser}
+        isAdmin={loginUser?.isAdmin}
+      />
     </>
   );
 });
